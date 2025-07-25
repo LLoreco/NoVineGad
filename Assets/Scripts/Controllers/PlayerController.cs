@@ -237,7 +237,6 @@ public class PlayerController : MonoBehaviour
             transform.position = new Vector3(transform.position.x, newY, transform.position.z);
             yield return null;
         }
-
         transform.position = new Vector3(
             transform.position.x,
             originalPosition.y,
