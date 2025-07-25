@@ -1,9 +1,9 @@
+using System;
 using UnityEngine;
 
 public interface IInputHandler
 {
-    float GetHorizontalInput();
-    float GetVerticalInput();
-    bool GetJumpInput();
-    bool GetCrouchInput();
+    event Action<int> OnTrackChange;
+    event Action OnJump;
+    event Action OnCrouch;
 }
