@@ -21,22 +21,18 @@ public class PlayerInput : InputBase, IInputHandler
     {
         if(Input.GetAxis("Horizontal") > 0)
         {
-            Debug.Log("Вправо");
             OnTrackChange?.Invoke(1);
         }
         if (Input.GetAxis("Horizontal") < 0)
         {
-            Debug.Log("Влево");
             OnTrackChange?.Invoke(-1);
         }
         if(Input.GetAxis("Vertical") > 0 || Input.GetKeyDown(JumpKey))
         {
-            Debug.Log("Прыжок");
             OnJump?.Invoke();
         }
         if (Input.GetAxis("Vertical") < 0 || Input.GetKeyDown(CrouchKey))
         {
-            Debug.Log("Присед");
             OnCrouch?.Invoke();
         }
     }

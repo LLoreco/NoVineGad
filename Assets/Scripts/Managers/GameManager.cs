@@ -1,12 +1,20 @@
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
     [Header("Game Settings")]
     [SerializeField] private float gameSpeed = 5f;
     private GameState currentState = GameState.Playing;
+
+    [Header("Player")]
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private Transform playerSpawnPoint;
+    private GameObject currentPlayer;
+
     public static GameManager Instance { get; private set; }
+
     public GameState CurrentState => currentState;
     public float GameSpeed => gameSpeed;
 
@@ -25,6 +33,14 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    //Для дэбага
+    private void Start()
+    {
+        StartGame();
+    }
+    //
+
     private void InitializeGame()
     {
         Debug.Log("Игровой менеджер иницализирован");
@@ -72,10 +88,32 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-
     public void StartGame()
     {
         ChangeGameState(GameState.Playing);
+        SpawnPlayer();
+    }
+    private void SpawnPlayer()
+    {
+        if (playerPrefab == null)
+        {
+            Debug.LogError("Нет префаба игрока!");
+            return;
+        }
+
+        if (currentPlayer != null)
+        {
+            Destroy(currentPlayer);
+        }
+
+        Vector3 spawnPosition = playerSpawnPoint != null ?
+            playerSpawnPoint.position :
+            new Vector3(0, 0, 0);
+
+        currentPlayer = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
+        currentPlayer.name = "Player";
+
+        Debug.Log("Игрок появился на: " + spawnPosition);
     }
 
     public void PauseGame()
