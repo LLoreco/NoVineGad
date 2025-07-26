@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -18,7 +19,7 @@ public class GameManager : MonoBehaviour
     public GameState CurrentState => currentState;
     public float GameSpeed => gameSpeed;
 
-    public System.Action<GameState> OnGameStateChanged;
+    public Action<GameState> OnGameStateChanged;
 
     private void Awake()
     {
@@ -112,6 +113,12 @@ public class GameManager : MonoBehaviour
 
         currentPlayer = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
         currentPlayer.name = "Player";
+
+        IPlayerMovement movement = currentPlayer.GetComponent<IPlayerMovement>();
+        if (movement != null)
+        {
+            ServiceManager.Instance.RegisterService<IPlayerMovement>(movement);
+        }
 
         Debug.Log("Игрок появился на: " + spawnPosition);
     }
